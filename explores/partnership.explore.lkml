@@ -1,13 +1,13 @@
 include: "/views/*.view"
 
-explore: opportunities {
-  view_name: opportunities
+explore: partnerships {
+  view_name: partnerships
 
   fields: [ALL_FIELDS*]
-  sql_always_where: NOT ${opportunities.is_deleted} ;;
+  sql_always_where: NOT ${partnerships.is_deleted} ;;
 
   join: accounts {
-    sql_on: ${opportunities.account_id} = ${accounts.id} ;;
+    sql_on: ${partnerships.account_c} = ${accounts.id} ;;
     relationship: many_to_one
   }
   join: account_owner {
@@ -15,14 +15,10 @@ explore: opportunities {
     sql_on: ${accounts.owner_id} = ${account_owner.id} ;;
     relationship: many_to_one
   }
-  join: campaigns {
-    sql_on: ${opportunities.campaign_id} = ${campaigns.id} ;;
-    relationship: many_to_one
-  }
   join: opportunity_owner {
     from: users
     type: full_outer # Full outer here since we want to include reps regardless of whether or not they own an opp
-    sql_on: ${opportunities.owner_id} = ${opportunity_owner.id} ;;
+    sql_on: ${partnerships.owner_id} = ${opportunity_owner.id} ;;
     relationship: many_to_one
   }
   join: manager {
@@ -35,7 +31,7 @@ explore: opportunities {
     relationship: one_to_one
   }
   join: tasks {
-    sql_on: ${opportunities.id} = ${tasks.what_id} ;;
+    sql_on: ${partnerships.id} = ${tasks.what_id} ;;
     relationship: one_to_many
   }
   join: owner_opp_sorted {

@@ -1,6 +1,6 @@
 
-view: task {
-  sql_table_name: @{SALESFORCE_SCHEMA}.task ;;
+view: tasks {
+  sql_table_name: @{SALESFORCE_SCHEMA}.tasks_view ;;
 
   dimension: id {
     primary_key: yes

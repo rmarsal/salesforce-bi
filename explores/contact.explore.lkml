@@ -1,36 +1,36 @@
 include: "/views/*.view"
 
-explore: contact {
-  view_name: contact
-  sql_always_where: NOT ${contact.is_deleted} ;;
+explore: contacts {
+  view_name: contacts
+  sql_always_where: NOT ${contacts.is_deleted} ;;
 
-  # fields: [ALL_FIELDS*, -contact_owner.user_exclusion_set*, -opportunity.opportunity_exclusion_set*, -account.account_exclusion_set*, -quota.quota_exclusion_set*]
-  fields: [ALL_FIELDS*, -opportunity.opportunity_exclusion_set*]
+  # fields: [ALL_FIELDS*, -contact_owner.user_exclusion_set*, -opportunities.opportunity_exclusion_set*, -accounts.account_exclusion_set*, -quota.quota_exclusion_set*]
+  fields: [ALL_FIELDS*, -opportunities.opportunity_exclusion_set*]
 
   join: contact_owner {
-    from: user
-    sql_on: ${contact_owner.id} = ${contact.owner_id} ;;
+    from: users
+    sql_on: ${contact_owner.id} = ${contacts.owner_id} ;;
     relationship: many_to_one
   }
 
-  join: account {
-    sql_on: ${contact.account_id} = ${account.id} ;;
+  join: accounts {
+    sql_on: ${contacts.account_id} = ${accounts.id} ;;
     relationship: many_to_one
   }
 
-  join: opportunity {
-    sql_on: ${account.id} = ${opportunity.account_id} ;;
+  join: opportunities {
+    sql_on: ${accounts.id} = ${opportunities.account_id} ;;
     relationship: one_to_many
   }
 
   join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.owner_id} = ${opportunity_owner.id} ;;
+    from: users
+    sql_on: ${opportunities.owner_id} = ${opportunity_owner.id} ;;
     relationship: many_to_one
   }
 
   join: manager {
-    from: user
+    from: users
     sql_on: ${opportunity_owner.manager_id} = ${manager.id};;
     fields: []
     relationship: many_to_one
@@ -43,7 +43,7 @@ explore: contact {
 #   }
 #
 #   join: aggregate_quota {
-#     sql_on: ${aggregate_quota.quota_start_fiscal_quarter} = ${opportunity.close_fiscal_quarter}  ;;
+#     sql_on: ${aggregate_quota.quota_start_fiscal_quarter} = ${opportunities.close_fiscal_quarter}  ;;
 #     relationship: many_to_one
 #   }
 
@@ -54,7 +54,7 @@ explore: contact {
 #   }
 #   join: first_meeting {
 #     view_label: "Opportunity"
-#     sql_on: ${opportunity.id} = ${first_meeting.opportunity_id} ;;
+#     sql_on: ${opportunities.id} = ${first_meeting.opportunity_id} ;;
 #     relationship: one_to_one
 #   }
 }

@@ -1,5 +1,5 @@
-view: campaign {
-  sql_table_name: @{SALESFORCE_SCHEMA}.campaign ;;
+view: campaigns {
+  sql_table_name: @{SALESFORCE_SCHEMA}.campaigns_view ;;
 
   dimension: id {
     primary_key: yes

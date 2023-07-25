@@ -1,5 +1,5 @@
-view: account {
-  sql_table_name: @{SALESFORCE_SCHEMA}.account ;;
+view: accounts {
+  sql_table_name: @{SALESFORCE_SCHEMA}.accounts_view ;;
 
 ###   Dimensions:
 

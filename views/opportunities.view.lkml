@@ -1,5 +1,5 @@
-view: opportunity {
-  sql_table_name: @{SALESFORCE_SCHEMA}.opportunity ;;
+view: opportunities {
+  sql_table_name: @{SALESFORCE_SCHEMA}.opportunities_view ;;
 
   dimension: id {
     primary_key: yes
@@ -251,8 +251,8 @@ view: opportunity {
   }
 
   dimension: probability {
-    type: number
-    sql: ${TABLE}.probability ;;
+    type: string
+    sql: CAST(${TABLE}.probability AS FLOAT64) ;;
     hidden: yes
   }
 

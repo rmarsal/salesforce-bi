@@ -1,5 +1,5 @@
-view: contact {
-  sql_table_name: @{SALESFORCE_SCHEMA}.contact ;;
+view: contacts {
+  sql_table_name: @{SALESFORCE_SCHEMA}.contacts_view ;;
 
   dimension: account_id {
     type: string

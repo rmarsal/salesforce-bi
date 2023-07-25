@@ -1,54 +1,54 @@
 include: "/views/*.view"
 
-explore: lead {
-  view_name: lead
-  #  fields: [ALL_FIELDS*,-opportunity.opportunity_exclusion_set*, -account.account_exclusion_set*, -quota.quota_exclusion_set*]
-  fields: [ALL_FIELDS*,-opportunity.opportunity_exclusion_set*]
-  sql_always_where: NOT ${lead.is_deleted}
+explore: leads {
+  view_name: leads
+  #  fields: [ALL_FIELDS*,-opportunities.opportunity_exclusion_set*, -account.account_exclusion_set*, -quota.quota_exclusion_set*]
+  fields: [ALL_FIELDS*,-opportunities.opportunity_exclusion_set*]
+  sql_always_where: NOT ${leads.is_deleted}
     ;;
 
   join: lead_owner {
-    from: user
-    sql_on: ${lead.owner_id} = ${lead_owner.id} ;;
+    from: users
+    sql_on: ${leads.owner_id} = ${lead_owner.id} ;;
     relationship: many_to_one
   }
 
-  join: account {
-    sql_on: ${lead.converted_account_id} = ${account.id} ;;
+  join: accounts {
+    sql_on: ${leads.converted_account_id} = ${accounts.id} ;;
     relationship: many_to_one
   }
 
   join: account_owner {
-    from: user
-    sql_on: ${account.owner_id} = ${account_owner.id} ;;
+    from: users
+    sql_on: ${accounts.owner_id} = ${account_owner.id} ;;
     relationship: many_to_one
   }
 
-  join: contact {
-    sql_on: ${lead.converted_contact_id} = ${contact.id} ;;
+  join: contacts {
+    sql_on: ${leads.converted_contact_id} = ${contacts.id} ;;
     relationship: many_to_one
   }
 
-  join: opportunity {
-    sql_on: ${lead.converted_opportunity_id} = ${opportunity.id} ;;
+  join: opportunities {
+    sql_on: ${leads.converted_opportunity_id} = ${opportunities.id} ;;
     relationship: many_to_one
   }
 
   join: opportunity_owner {
-    from: user
-    sql_on: ${opportunity.owner_id} = ${opportunity_owner.id} ;;
+    from: users
+    sql_on: ${opportunities.owner_id} = ${opportunity_owner.id} ;;
     relationship: many_to_one
   }
 
   join: manager {
-    from: user
+    from: users
     sql_on: ${opportunity_owner.manager_id} = ${manager.id};;
     fields: []
     relationship: many_to_one
   }
 
-  join: task {
-    sql_on: ${task.who_id} = ${lead.id} ;;
+  join: tasks {
+    sql_on: ${tasks.who_id} = ${leads.id} ;;
     relationship: one_to_many
   }
 }

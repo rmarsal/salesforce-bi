@@ -1,5 +1,5 @@
-view: lead {
-  sql_table_name: @{SALESFORCE_SCHEMA}.lead ;;
+view: leads {
+  sql_table_name: @{SALESFORCE_SCHEMA}.leads_view ;;
 
   dimension: id {
     primary_key: yes

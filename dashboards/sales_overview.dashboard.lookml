@@ -4,25 +4,25 @@
   elements:
   - title: Bookings (QTD)
     name: Bookings (QTD)
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: single_value
-    fields: [opportunity.total_amount, opportunity.close_fiscal_quarter]
-    pivots: [opportunity.close_fiscal_quarter]
-    fill_fields: [opportunity.close_fiscal_quarter]
+    fields: [opportunities.total_amount, opportunities.close_fiscal_quarter]
+    pivots: [opportunities.close_fiscal_quarter]
+    fill_fields: [opportunities.close_fiscal_quarter]
     filters:
-      opportunity.close_date: this fiscal quarter, last fiscal quarter
-      opportunity.is_won: 'Yes'
-    sorts: [opportunity.close_fiscal_quarter desc]
+      opportunities.close_date: this fiscal quarter, last fiscal quarter
+      opportunities.is_won: 'Yes'
+    sorts: [opportunities.close_fiscal_quarter desc]
     limit: 500
     column_limit: 50
-    dynamic_fields: [{table_calculation: change, label: Change, expression: "(pivot_index(${opportunity.total_amount},\
-          \ 1) - pivot_index(${opportunity.total_amount}, 2))/pivot_index(${opportunity.total_amount},\
+    dynamic_fields: [{table_calculation: change, label: Change, expression: "(pivot_index(${opportunities.total_amount},\
+          \ 1) - pivot_index(${opportunities.total_amount}, 2))/pivot_index(${opportunities.total_amount},\
           \ 2)", value_format: !!null '', value_format_name: percent_1, _kind_hint: supermeasure,
         _type_hint: number}]
     filter_expression: |-
       # Only compare QTDs
-      ${opportunity.day_of_fiscal_quarter} <= ${opportunity.current_day_of_fiscal_quarter}
+      ${opportunities.day_of_fiscal_quarter} <= ${opportunities.current_day_of_fiscal_quarter}
     custom_color_enabled: true
     custom_color: ''
     show_single_value_title: true
@@ -47,14 +47,14 @@
     height: 4
   - title: Closed Won Opps
     name: Closed Won Opps
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: single_value
-    fields: [opportunity.count]
+    fields: [opportunities.count]
     filters:
-      opportunity.is_won: 'Yes'
-      opportunity.is_closed: 'Yes'
-    sorts: [opportunity.total_closed_won_new_business_amount desc]
+      opportunities.is_won: 'Yes'
+      opportunities.is_closed: 'Yes'
+    sorts: [opportunities.total_closed_won_new_business_amount desc]
     limit: 500
     column_limit: 50
     custom_color_enabled: true
@@ -77,15 +77,15 @@
     height: 4
   - title: Top 10 Reps This Quarter
     name: Top 10 Reps This Quarter
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_bar
-    fields: [opportunity_owner.name, opportunity.total_amount]
+    fields: [opportunity_owner.name, opportunities.total_amount]
     filters:
-      opportunity.total_amount: ">0"
-      opportunity.close_date: this quarter
-      opportunity.is_won: 'Yes'
-    sorts: [opportunity.total_amount desc]
+      opportunities.total_amount: ">0"
+      opportunities.close_date: this quarter
+      opportunities.is_won: 'Yes'
+    sorts: [opportunities.total_amount desc]
     limit: 10
     column_limit: 50
     color_application:
@@ -96,8 +96,8 @@
     x_axis_gridlines: false
     y_axis_gridlines: false
     show_view_names: false
-    y_axes: [{label: '', orientation: bottom, series: [{axisId: opportunity.total_amount,
-            id: opportunity.total_amount, name: Total Amount}], showLabels: false,
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: opportunities.total_amount,
+            id: opportunities.total_amount, name: Total Amount}], showLabels: false,
         showValues: false, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
     show_y_axis_labels: true
@@ -117,10 +117,10 @@
     series_types: {}
     point_style: none
     series_colors:
-      opportunity.total_amount: "#EE9093"
+      opportunities.total_amount: "#EE9093"
     series_labels:
-      opportunity.total_new_closed_won_amount_qtd: Closed Won
-      opportunity.total_pipeline_amount: Pipeline
+      opportunities.total_new_closed_won_amount_qtd: Closed Won
+      opportunities.total_pipeline_amount: Pipeline
     show_value_labels: true
     label_density: 25
     x_axis_scale: auto
@@ -154,7 +154,7 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     subtotals_at_bottom: false
-    hidden_fields: [opportunity.total_new_closed_won_amount_qtd]
+    hidden_fields: [opportunities.total_new_closed_won_amount_qtd]
     listen: {}
     row: 4
     col: 0
@@ -162,8 +162,8 @@
     height: 9
   - title: Task Breakdown
     name: Task Breakdown
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_column
     fields: [task.created_month, task.calls, task.emails, task.meetings]
     fill_fields: [task.created_month]
@@ -201,7 +201,7 @@
     limit_displayed_rows: false
     legend_position: center
     series_types:
-      opportunity.win_percentage: line
+      opportunities.win_percentage: line
       task.meetings: line
     point_style: circle
     series_colors:
@@ -209,7 +209,7 @@
       task.emails: "#EE9093"
       task.meetings: "#C762AD"
     series_point_styles:
-      opportunity.win_percentage: square
+      opportunities.win_percentage: square
     show_value_labels: false
     label_density: 25
     x_axis_scale: auto
@@ -226,16 +226,16 @@
     height: 8
   - title: Closed Deals by Opportunity Type
     name: Closed Deals by Opportunity Type
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_column
-    fields: [opportunity.close_quarter, opportunity.type, opportunity.total_amount]
-    pivots: [opportunity.type]
-    fill_fields: [opportunity.close_quarter]
+    fields: [opportunities.close_quarter, opportunities.type, opportunities.total_amount]
+    pivots: [opportunities.type]
+    fill_fields: [opportunities.close_quarter]
     filters:
-      opportunity.close_fiscal_quarter: 4 fiscal quarters
-      opportunity.is_won: 'Yes'
-    sorts: [opportunity.close_quarter, opportunity.type 0]
+      opportunities.close_fiscal_quarter: 4 fiscal quarters
+      opportunities.is_won: 'Yes'
+    sorts: [opportunities.close_quarter, opportunities.type 0]
     limit: 500
     column_limit: 50
     color_application:
@@ -248,18 +248,18 @@
     y_axis_gridlines: false
     show_view_names: false
     y_axes: [{label: Amount in Pipeline, orientation: left, series: [{id: Won - 0
-              - opportunity.total_pipeline_amount, name: Won, axisId: Won - 0 - opportunity.total_pipeline_amount},
-          {id: Above 80% - 1 - opportunity.total_pipeline_amount, name: Above 80%,
-            axisId: Above 80% - 1 - opportunity.total_pipeline_amount}, {id: 60 -
-              80% - 2 - opportunity.total_pipeline_amount, name: 60 - 80%, axisId: 60
-              - 80% - 2 - opportunity.total_pipeline_amount}, {id: 40 - 60% - 3 -
-              opportunity.total_pipeline_amount, name: 40 - 60%, axisId: 40 - 60%
-              - 3 - opportunity.total_pipeline_amount}, {id: 20 - 40% - 4 - opportunity.total_pipeline_amount,
-            name: 20 - 40%, axisId: 20 - 40% - 4 - opportunity.total_pipeline_amount},
-          {id: Under 20% - 5 - opportunity.total_pipeline_amount, name: Under 20%,
-            axisId: Under 20% - 5 - opportunity.total_pipeline_amount}, {id: Lost
-              - 6 - opportunity.total_pipeline_amount, name: Lost, axisId: Lost -
-              6 - opportunity.total_pipeline_amount}], showLabels: false, showValues: false,
+              - opportunities.total_pipeline_amount, name: Won, axisId: Won - 0 - opportunities.total_pipeline_amount},
+          {id: Above 80% - 1 - opportunities.total_pipeline_amount, name: Above 80%,
+            axisId: Above 80% - 1 - opportunities.total_pipeline_amount}, {id: 60 -
+              80% - 2 - opportunities.total_pipeline_amount, name: 60 - 80%, axisId: 60
+              - 80% - 2 - opportunities.total_pipeline_amount}, {id: 40 - 60% - 3 -
+              opportunities.total_pipeline_amount, name: 40 - 60%, axisId: 40 - 60%
+              - 3 - opportunities.total_pipeline_amount}, {id: 20 - 40% - 4 - opportunities.total_pipeline_amount,
+            name: 20 - 40%, axisId: 20 - 40% - 4 - opportunities.total_pipeline_amount},
+          {id: Under 20% - 5 - opportunities.total_pipeline_amount, name: Under 20%,
+            axisId: Under 20% - 5 - opportunities.total_pipeline_amount}, {id: Lost
+              - 6 - opportunities.total_pipeline_amount, name: Lost, axisId: Lost -
+              6 - opportunities.total_pipeline_amount}], showLabels: false, showValues: false,
         valueFormat: '$0.0,, "M"', unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
     show_y_axis_labels: true
@@ -276,16 +276,16 @@
     trellis: ''
     stacking: normal
     limit_displayed_rows: false
-    hidden_series: [Lost - 6 - opportunity.total_revenue, Under 20% - 5 - opportunity.total_revenue,
-      Won - 0 - opportunity.total_pipeline_amount, Lost - 6 - opportunity.total_pipeline_amount,
-      Closed Won - 6 - opportunity.total_pipeline_amount]
+    hidden_series: [Lost - 6 - opportunities.total_revenue, Under 20% - 5 - opportunities.total_revenue,
+      Won - 0 - opportunities.total_pipeline_amount, Lost - 6 - opportunities.total_pipeline_amount,
+      Closed Won - 6 - opportunities.total_pipeline_amount]
     legend_position: right
     label_value_format: ''
     series_types: {}
     point_style: none
     series_colors:
-      Upgrade - opportunity.total_amount: "#FED8A0"
-      Seat Upsell - opportunity.total_amount: "#FFB690"
+      Upgrade - opportunities.total_amount: "#FED8A0"
+      Seat Upsell - opportunities.total_amount: "#FFB690"
     show_value_labels: false
     label_density: 25
     label_color: ["#FFFFFF"]
@@ -306,15 +306,15 @@
     height: 8
   - title: Top 5 Managers This Quarter
     name: Top 5 Managers This Quarter
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_bar
-    fields: [opportunity.total_amount, opportunity_owner.manager]
+    fields: [opportunities.total_amount, opportunity_owner.manager]
     filters:
-      opportunity.total_amount: ">0"
-      opportunity.close_date: this quarter
-      opportunity.is_won: 'Yes'
-    sorts: [opportunity.total_amount desc]
+      opportunities.total_amount: ">0"
+      opportunities.close_date: this quarter
+      opportunities.is_won: 'Yes'
+    sorts: [opportunities.total_amount desc]
     limit: 10
     column_limit: 50
     color_application:
@@ -325,8 +325,8 @@
     x_axis_gridlines: false
     y_axis_gridlines: false
     show_view_names: false
-    y_axes: [{label: '', orientation: bottom, series: [{axisId: opportunity.total_amount,
-            id: opportunity.total_amount, name: Total Amount}], showLabels: false,
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: opportunities.total_amount,
+            id: opportunities.total_amount, name: Total Amount}], showLabels: false,
         showValues: false, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
     show_y_axis_labels: true
@@ -346,10 +346,10 @@
     series_types: {}
     point_style: none
     series_colors:
-      opportunity.total_amount: "#FD9577"
+      opportunities.total_amount: "#FD9577"
     series_labels:
-      opportunity.total_new_closed_won_amount_qtd: Closed Won
-      opportunity.total_pipeline_amount: Pipeline
+      opportunities.total_new_closed_won_amount_qtd: Closed Won
+      opportunities.total_pipeline_amount: Pipeline
     show_value_labels: true
     label_density: 25
     x_axis_scale: auto
@@ -383,7 +383,7 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     subtotals_at_bottom: false
-    hidden_fields: [opportunity.total_new_closed_won_amount_qtd]
+    hidden_fields: [opportunities.total_new_closed_won_amount_qtd]
     listen: {}
     row: 13
     col: 0
@@ -391,26 +391,26 @@
     height: 10
   - title: Won Amount Running Total with Win %
     name: Won Amount Running Total with Win %
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_line
-    fields: [opportunity.close_week, opportunity.win_percentage, opportunity.total_closed_won_amount]
-    fill_fields: [opportunity.close_week]
+    fields: [opportunities.close_week, opportunities.win_percentage, opportunities.total_closed_won_amount]
+    fill_fields: [opportunities.close_week]
     filters:
-      opportunity.close_week: 6 months
-    sorts: [opportunity.close_week]
+      opportunities.close_week: 6 months
+    sorts: [opportunities.close_week]
     limit: 500
     dynamic_fields: [{table_calculation: running_total_won_amount, label: Running
-          Total Won Amount, expression: 'running_total(${opportunity.total_closed_won_amount})',
+          Total Won Amount, expression: 'running_total(${opportunities.total_closed_won_amount})',
         value_format: !!null '', value_format_name: usd_0, _kind_hint: measure, _type_hint: number}]
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
-    y_axes: [{label: '', orientation: left, series: [{axisId: opportunity.total_amount,
-            id: opportunity.total_amount, name: Total Amount}], showLabels: true,
+    y_axes: [{label: '', orientation: left, series: [{axisId: opportunities.total_amount,
+            id: opportunities.total_amount, name: Total Amount}], showLabels: true,
         showValues: true, unpinAxis: false, tickDensity: default, type: linear}, {
-        label: !!null '', orientation: right, series: [{axisId: opportunity.win_percentage,
-            id: opportunity.win_percentage, name: Win Percentage}], showLabels: true,
+        label: !!null '', orientation: right, series: [{axisId: opportunities.win_percentage,
+            id: opportunities.win_percentage, name: Win Percentage}], showLabels: true,
         showValues: true, unpinAxis: false, tickDensity: default, type: linear}]
     show_y_axis_labels: true
     show_y_axis_ticks: true
@@ -427,14 +427,14 @@
     limit_displayed_rows: false
     legend_position: center
     series_types:
-      opportunity.total_amount: area
+      opportunities.total_amount: area
       running_total_won_amount: area
     point_style: none
     series_colors:
       running_total_won_amount: "#B1399E"
-      opportunity.win_percentage: "#592EC2"
+      opportunities.win_percentage: "#592EC2"
     series_labels:
-      opportunity.win_percentage: Win %
+      opportunities.win_percentage: Win %
       running_total_won_amount: Won Amount
     series_point_styles: {}
     show_value_labels: false
@@ -443,7 +443,7 @@
     y_axis_combined: true
     show_null_points: true
     interpolation: monotone
-    hidden_fields: [opportunity.total_closed_won_amount]
+    hidden_fields: [opportunities.total_closed_won_amount]
     listen: {}
     row: 0
     col: 6
@@ -451,17 +451,17 @@
     height: 13
   - title: Won Opps (QTD)
     name: Won Opps (QTD)
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_grid
-    fields: [opportunity.name, account.industry, opportunity_owner.manager, opportunity.close_date,
-      opportunity.type, opportunity.days_to_closed_won, opportunity.total_amount,
+    fields: [opportunities.name, account.industry, opportunity_owner.manager, opportunities.close_date,
+      opportunities.type, opportunities.days_to_closed_won, opportunities.total_amount,
       task.emails]
     filters:
-      opportunity.close_date: 1 quarters
-      opportunity.is_closed: 'Yes'
-      opportunity.is_won: 'Yes'
-    sorts: [opportunity.total_amount desc]
+      opportunities.close_date: 1 quarters
+      opportunities.is_closed: 'Yes'
+      opportunities.is_won: 'Yes'
+    sorts: [opportunities.total_amount desc]
     limit: 500
     show_totals: true
     show_row_totals: true
@@ -471,14 +471,14 @@
     truncate_text: true
     size_to_fit: true
     series_column_widths:
-      opportunity.days_to_closed_won: 155
-      opportunity.total_amount: 197
+      opportunities.days_to_closed_won: 155
+      opportunities.total_amount: 197
       account.domain: 161
       opportunity_owner.manager: 651
       account.industry: 130
       task.meetings: 957
     series_cell_visualizations:
-      opportunity.total_amount:
+      opportunities.total_amount:
         is_active: false
     table_theme: white
     limit_displayed_rows: false
@@ -493,7 +493,7 @@
               {color: "#ffffff", offset: 100}]}, options: {steps: 5, constraints: {
               min: {type: minimum}, mid: {type: number, value: 0}, max: {type: maximum}},
             mirror: true, reverse: false, stepped: false}}, bold: false, italic: false,
-        strikethrough: false, fields: [opportunity.days_to_closed_won]}, {type: along
+        strikethrough: false, fields: [opportunities.days_to_closed_won]}, {type: along
           a scale..., value: !!null '', background_color: "#3EB0D5", font_color: !!null '',
         color_application: {collection_id: b43731d5-dc87-4a8e-b807-635bef3948e7, custom: {
             id: 4d9bbf35-831c-dd55-8633-a091a521d740, label: Custom, type: continuous,
@@ -501,7 +501,7 @@
               {color: "#ffffff", offset: 100}]}, options: {steps: 5, constraints: {
               min: {type: minimum}, mid: {type: number, value: 0}, max: {type: maximum}},
             mirror: true, reverse: false, stepped: false}}, bold: false, italic: false,
-        strikethrough: false, fields: [opportunity.total_amount]}, {type: along a
+        strikethrough: false, fields: [opportunities.total_amount]}, {type: along a
           scale..., value: !!null '', background_color: "#3EB0D5", font_color: !!null '',
         color_application: {collection_id: b43731d5-dc87-4a8e-b807-635bef3948e7, custom: {
             id: 06a4cce9-8f75-eff6-6426-a3dbf1ddb035, label: Custom, type: continuous,
@@ -527,16 +527,16 @@
     height: 12
   - title: Bookings by Lead Source
     name: Bookings by Lead Source
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_bar
-    fields: [opportunity.lead_source, opportunity.total_amount]
+    fields: [opportunities.lead_source, opportunities.total_amount]
     filters:
-      opportunity.total_amount: ">0"
-      opportunity.close_date: this quarter
-      opportunity.is_won: 'Yes'
-      opportunity.lead_source: "-NULL"
-    sorts: [opportunity.total_amount desc]
+      opportunities.total_amount: ">0"
+      opportunities.close_date: this quarter
+      opportunities.is_won: 'Yes'
+      opportunities.lead_source: "-NULL"
+    sorts: [opportunities.total_amount desc]
     limit: 10
     column_limit: 50
     color_application:
@@ -547,8 +547,8 @@
     x_axis_gridlines: false
     y_axis_gridlines: false
     show_view_names: false
-    y_axes: [{label: '', orientation: bottom, series: [{axisId: opportunity.average_amount_won,
-            id: opportunity.average_amount_won, name: Average Amount Won}], showLabels: true,
+    y_axes: [{label: '', orientation: bottom, series: [{axisId: opportunities.average_amount_won,
+            id: opportunities.average_amount_won, name: Average Amount Won}], showLabels: true,
         showValues: false, unpinAxis: false, tickDensity: default, tickDensityCustom: 5,
         type: linear}]
     show_y_axis_labels: true
@@ -568,10 +568,10 @@
     series_types: {}
     point_style: none
     series_colors:
-      opportunity.total_amount: "#9F4AB4"
+      opportunities.total_amount: "#9F4AB4"
     series_labels:
-      opportunity.total_new_closed_won_amount_qtd: Closed Won
-      opportunity.total_pipeline_amount: Pipeline
+      opportunities.total_new_closed_won_amount_qtd: Closed Won
+      opportunities.total_pipeline_amount: Pipeline
     show_value_labels: true
     label_density: 25
     x_axis_scale: auto
@@ -605,7 +605,7 @@
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
     subtotals_at_bottom: false
-    hidden_fields: [opportunity.total_new_closed_won_amount_qtd]
+    hidden_fields: [opportunities.total_new_closed_won_amount_qtd]
     listen: {}
     row: 23
     col: 18
@@ -613,14 +613,14 @@
     height: 8
   - title: Bookings by State
     name: Bookings by State
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_map
-    fields: [account.billing_state, opportunity.total_closed_won_amount]
+    fields: [account.billing_state, opportunities.total_closed_won_amount]
     filters:
       account.billing_country: USA,United States
-      opportunity.close_fiscal_quarter: this quarter
-      opportunity.is_won: 'Yes'
+      opportunities.close_fiscal_quarter: this quarter
+      opportunities.is_won: 'Yes'
     sorts: [account.billing_state]
     limit: 500
     column_limit: 50
@@ -656,13 +656,13 @@
     height: 10
   - title: Biggest Wins
     name: Biggest Wins
-    model: block-sales_v2
-    explore: opportunity
+    model: salesforce
+    explore: opportunities
     type: looker_bar
-    fields: [opportunity.total_amount, account.name]
+    fields: [opportunities.total_amount, account.name]
     filters:
-      opportunity.is_won: 'Yes'
-    sorts: [opportunity.total_amount desc]
+      opportunities.is_won: 'Yes'
+    sorts: [opportunities.total_amount desc]
     limit: 5
     column_limit: 50
     color_application:
@@ -681,8 +681,8 @@
     x_axis_gridlines: false
     y_axis_gridlines: true
     show_view_names: false
-    y_axes: [{label: '', orientation: left, series: [{id: opportunity.total_closed_won_new_business_amount,
-            name: 'Closed Won ACV ', axisId: opportunity.total_closed_won_new_business_amount}],
+    y_axes: [{label: '', orientation: left, series: [{id: opportunities.total_closed_won_new_business_amount,
+            name: 'Closed Won ACV ', axisId: opportunities.total_closed_won_new_business_amount}],
         showLabels: false, showValues: false, unpinAxis: false, tickDensity: default,
         tickDensityCustom: 5, type: linear}]
     show_y_axis_labels: true
@@ -703,8 +703,8 @@
     series_types: {}
     point_style: none
     series_colors:
-      opportunity.total_closed_won_new_business_amount: "#462C9D"
-      opportunity.total_amount: "#D978A1"
+      opportunities.total_closed_won_new_business_amount: "#462C9D"
+      opportunities.total_amount: "#D978A1"
     show_value_labels: true
     label_density: 25
     x_axis_scale: auto
@@ -726,7 +726,7 @@
         bold: false, italic: false, strikethrough: false, fields: !!null ''}]
     conditional_formatting_include_totals: false
     conditional_formatting_include_nulls: false
-    hidden_fields: [opportunity.name_id]
+    hidden_fields: [opportunities.name_id]
     listen: {}
     row: 13
     col: 18

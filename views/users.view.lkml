@@ -1,5 +1,5 @@
-view: user {
-  sql_table_name: @{SALESFORCE_SCHEMA}.user ;;
+view: users {
+  sql_table_name: @{SALESFORCE_SCHEMA}.users_view ;;
   dimension: id {
     primary_key: yes
     type: string
